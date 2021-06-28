@@ -1,0 +1,5 @@
+<!--chart/excomponent/bar/index.wxml-->
+<view class="bar-main" style="height: {{ height }}rpx; width: {{ width }}px">
+    <canvas type="2d" id="bar-canvas" canvas-id="bar-canvas"></canvas>
+    <canvas type="2d" id="float-canvas" class="float-canvas"></canvas>
+</view>
