@@ -1,5 +1,6 @@
 // chart/excomponent/bar/index.js
 import BarHandle from './handle'
+
 Component({
     /**
      * 组件的属性列表
@@ -19,7 +20,8 @@ Component({
      * 组件的初始数据
      */
     data: {
-
+        barHandle: null,
+        letf: 0,
     },
     lifetimes: {
         attached(){
@@ -48,19 +50,26 @@ Component({
             query.select('#bar-canvas')
               .fields({ node: true, size: true })
               .exec((res) => {
-                  console.log(res)
-                const canvas = res[0].node
-                const ctx = canvas.getContext('2d')
-                // const ctx = wx.createCanvasContext('bar-canvas')
-
-                let barHandle = new BarHandle(ctx)
+              
+                const canvas = res[0]
+                // const ctx = canvas.getContext('2d')
+                const ctx = wx.createCanvasContext('bar-canvas', this)
+                console.log('ctx',ctx)
+                const floatctx = wx.createCanvasContext('float-canvas', this)
+                let barHandle = new BarHandle(ctx, floatctx, this)
                 barHandle.setOption({ 
-                    height: canvas.height,
+                    height: canvas.height / 2,
                     width: canvas.width
                 })
+                this.data.barHandle = barHandle
                 console.log(barHandle.getOption())
               })
             
+        },
+        bindTap(event) {
+            // console.log('bindTouchStart', event.detail)
+            let { x, y } = event.detail
+            this.data.barHandle.bindTap(x, y)
         }
     }
 })

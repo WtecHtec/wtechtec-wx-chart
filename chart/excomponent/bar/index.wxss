@@ -12,3 +12,13 @@ canvas {
     top: 0;
     left: 0;
 }
+
+.tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+    padding: 20rpx;
+    border: 1px solid #F5F6FA ;
+    border-radius: 5%;
+}
