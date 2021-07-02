@@ -3,9 +3,9 @@ import DrawUtil  from '../../utils/draw-util'
 import ToolUtil  from '../../utils/tool-util'
 import MyScaleLinear from '../../scale/scale-linear'
 import MyScaleRound from '../../scale/scale-round'
+import { COLOR } from '../../utils/color'
 const WORD_WIDTH = 30
-const SPACING = 8
-const COLOR = ['#7587DB', '#FFAA00', '#00C5DC'] 
+const SPACING = 8 
 class BarHandle {
 
     constructor(ctx, floatctx, self){

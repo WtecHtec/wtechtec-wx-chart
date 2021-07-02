@@ -3,9 +3,10 @@ import DrawUtil  from '../../utils/draw-util'
 import ToolUtil  from '../../utils/tool-util'
 import MyScaleLinear from '../../scale/scale-linear'
 import MyScaleRound from '../../scale/scale-round'
+import { COLOR } from '../../utils/color'
 const WORD_WIDTH = 30
 const SPACING = 8
-const COLOR = ['#7587DB', '#FFAA00', '#00C5DC'] 
+
 class BarHandle {
 
     constructor(ctx, floatctx, self){
@@ -25,17 +26,14 @@ class BarHandle {
             this.drawUtil =  new DrawUtil(ctx)
             this.toolUtil = new ToolUtil()
 
-            this.yLeftScale = {}
+        
 
             this.yRightScale = {}
             this.xScale = {}
             
 
-            this.yLeftAxisConfig = null
             this.yRightAxisConfig = null
-            
-            this.leftMinVal = 0
-            this.leftMaxVal = 0
+       
 
             this.rightMinVal = 0
             this.rightMaxVal = 0
@@ -86,7 +84,7 @@ class BarHandle {
         if (x > this.config.width - this.config.grid.right -  (this.config.yAxis.length >= 2 ? WORD_WIDTH : 0 ) ) return
         if (y < this.config.grid.top) return
         if (y > this.config.height - this.config.grid.bottom) return
-        console.log(x , y)
+  
         this.currentIndex = this._getTapIndex(x)
         if (this.currentIndex !== -1) {
             this.currentTapData = []

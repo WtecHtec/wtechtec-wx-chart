@@ -93,8 +93,11 @@ class DrawUtil{
         ctx.beginPath()
         ctx.arc(x, y, r, sa, ea)
         if ( ishollow ) {
+            ctx.setLineWidth(config.lineWidth || 20)
+            ctx.setStrokeStyle(config.strokeStyle || '#000')
             ctx.stroke();
         } else {
+            ctx.setFillStyle(config.fillStyle || '#000')
             ctx.fill()
         }
         ctx.stroke()
