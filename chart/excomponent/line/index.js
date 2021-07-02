@@ -67,9 +67,12 @@ Component({
             
         },
         bindTap(event) {
-            console.log('bindTouchStart', event)
+           
+            let { offsetLeft, offsetTop } = event.currentTarget
             let { x, y } = event.detail
-            this.data.barHandle.bindTap(x, y)
+
+            // console.log('bindTouchStart', event, x - offsetLeft)
+            this.data.barHandle.bindTap(x - offsetLeft, y - offsetTop)
         }
     }
 })

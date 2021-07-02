@@ -1,6 +1,6 @@
 <bar-chart></bar-chart>
 
-<!-- <pie-chart></pie-chart> -->
+<pie-chart></pie-chart>
 
 <line-chart></line-chart>
 

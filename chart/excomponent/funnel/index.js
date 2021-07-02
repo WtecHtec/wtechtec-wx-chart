@@ -68,8 +68,9 @@ Component({
         },
         bindTap(event) {
             // console.log('bindTouchStart', event.detail)
+            let { offsetLeft, offsetTop } = event.currentTarget
             let { x, y } = event.detail
-            let touchData = this.data.pieHandle.bindTap(x, y)
+            let touchData = this.data.pieHandle.bindTap(x - offsetLeft, y - offsetTop)
             console.log(touchData)
         }
     }
