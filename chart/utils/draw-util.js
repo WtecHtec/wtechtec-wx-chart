@@ -43,6 +43,7 @@ class DrawUtil{
         ctx.moveTo(left, y1 + top);
         ctx.lineTo(left, y2 + top);
         ctx.closePath();
+        ctx.setStrokeStyle(config.strokeStyle || '#000')
         ctx.stroke();
 
     }
@@ -115,7 +116,7 @@ class DrawUtil{
         ctx.moveTo(pos1.x,pos1.y);
         ctx.lineTo(pos2.x, pos2.y);
         ctx.closePath();
-        ctx.setStrokeStyle(config.fillColor || '#7587DB')
+        ctx.setStrokeStyle(config.strokeStyle || '#7587DB')
         ctx.setLineWidth(config.lineWidth || 1)
         ctx.stroke();
     }
@@ -137,7 +138,7 @@ class DrawUtil{
       
         ctx.setLineWidth(config.lineWidth || 1)
         if (isFll) {
-            ctx.setFillStyle(config.fillStyle || '#000')
+            ctx.setFillStyle(config.fillStyle || '#7587DB')
             ctx.fill()
         } else {
             ctx.setStrokeStyle(config.strokeStyle || '#7587DB')

@@ -5,3 +5,5 @@
 <line-chart></line-chart>
 
 <funnel-chart></funnel-chart>
+
+<radar-chart></radar-chart>

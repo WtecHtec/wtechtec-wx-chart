@@ -3,6 +3,7 @@
     "funnel-chart": "../../chart/excomponent/funnel",
     "line-chart": "../../chart/excomponent/line",
     "pie-chart": "../../chart/excomponent/pie",
+    "radar-chart": "../../chart/excomponent/radar",
     "bar-chart": "../../chart/excomponent/bar"
   }
 }
