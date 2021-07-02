@@ -1,3 +1,5 @@
+// 映射 值域
+
 class MyScaleLinear {
     constructor() {
         this.domainVal = []

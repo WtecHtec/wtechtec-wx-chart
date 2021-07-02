@@ -1,3 +1,5 @@
+// 平分
+
 class MyScaleRound {
 	constructor(arg) {
 		this.rangeVal = []

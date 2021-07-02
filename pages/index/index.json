@@ -1,5 +1,8 @@
 {
   "usingComponents": {
-    "bar-chart": "../../chart/excomponent/pie"
+    "funnel-chart": "../../chart/excomponent/funnel",
+    "line-chart": "../../chart/excomponent/line",
+    "pie-chart": "../../chart/excomponent/pie",
+    "bar-chart": "../../chart/excomponent/bar"
   }
 }

@@ -1,3 +1,4 @@
+// 数组map
 class  MyScaleOrdinal {
     constructor() {
         this.domainVal = []

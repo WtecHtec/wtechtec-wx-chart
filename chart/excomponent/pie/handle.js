@@ -177,11 +177,20 @@ class BarHandle {
         this.lineWidth = lineWidth
         let colorLen = COLOR.length
         for(let i = 0; i < this.scalePieDatas.length; i++) {
-            this.drawUtil.drawArc(this.centerX, this.centerY, this.outR/2 - lineWidth/2 , this.scalePieDatas[i].startAngle, this.scalePieDatas[i].endAngle, 1, 
+          
+            this.drawUtil.drawArc(this.centerX, this.centerY, this.outR/2 - lineWidth/2 , this.scalePieDatas[i].startAngle + (i === 0 ? 0.01 : 0) , this.scalePieDatas[i].endAngle, 1, 
                 {   lineWidth,
                     strokeStyle: COLOR[i % colorLen] 
                 }
             )
+            if (i <  this.scalePieDatas.length - 1) {
+                this.drawUtil.drawArc(this.centerX, this.centerY, this.outR/2 - lineWidth/2 , this.scalePieDatas[i].endAngle - 0.01, 0.01, 1, 
+                    {   lineWidth,
+                        strokeStyle: '#fff' 
+                    }
+                )
+            }
+            
         }
     }
 

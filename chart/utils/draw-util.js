@@ -93,14 +93,14 @@ class DrawUtil{
         ctx.beginPath()
         ctx.arc(x, y, r, sa, ea)
         if ( ishollow ) {
-            ctx.setLineWidth(config.lineWidth || 20)
+            ctx.setLineWidth(config.lineWidth || 1)
             ctx.setStrokeStyle(config.strokeStyle || '#000')
             ctx.stroke();
         } else {
             ctx.setFillStyle(config.fillStyle || '#000')
             ctx.fill()
         }
-        ctx.stroke()
+        // ctx.stroke()
     }
   
     /**
@@ -119,6 +119,31 @@ class DrawUtil{
         ctx.setLineWidth(config.lineWidth || 1)
         ctx.stroke();
     }
-	
+    
+    /**
+     *  绘制区域
+     * @param {*} startPos  绘制开始点
+     * @param {*} pos  绘制点数组
+     * @param {*} config  画笔配置
+     */
+    drawArea(startPos, pos, isFll, config = {}){
+        let ctx = this.ctx
+        ctx.beginPath();
+        ctx.moveTo(startPos.x,startPos.y);
+        for (let i = 0; i < pos.length; i++) {
+            ctx.lineTo(pos[i].x, pos[i].y);
+        }
+        ctx.closePath();
+      
+        ctx.setLineWidth(config.lineWidth || 1)
+        if (isFll) {
+            ctx.setFillStyle(config.fillStyle || '#000')
+            ctx.fill()
+        } else {
+            ctx.setStrokeStyle(config.strokeStyle || '#7587DB')
+            ctx.stroke();
+        }
+        
+    }
 }
 export default DrawUtil;

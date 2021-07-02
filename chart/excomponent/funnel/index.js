@@ -1,5 +1,5 @@
 // chart/excomponent/bar/index.js
-import BarHandle from './handle'
+import PieHandle from './handle'
 
 Component({
     /**
@@ -20,7 +20,7 @@ Component({
      * 组件的初始数据
      */
     data: {
-        barHandle: null,
+        pieHandle: null,
         letf: 0,
     },
     lifetimes: {
@@ -56,22 +56,21 @@ Component({
                 const ctx = wx.createCanvasContext('bar-canvas', this)
                 console.log('ctx',ctx)
                 const floatctx = wx.createCanvasContext('float-canvas', this)
-                let barHandle = new BarHandle(ctx, floatctx, this)
-                barHandle.setOption({ 
-                    height: canvas.height / 2,
+                let pieHandle = new PieHandle(ctx, floatctx, this)
+                pieHandle.setOption({ 
+                    height: canvas.height/2 ,
                     width: canvas.width
                 })
-                this.data.barHandle = barHandle
-                console.log(barHandle.getOption())
+                this.data.pieHandle = pieHandle
+                console.log(pieHandle.getOption())
               })
             
         },
         bindTap(event) {
             // console.log('bindTouchStart', event.detail)
-            console.log('bindTouchStart', event)
-            let {clientX: x, clientY: y } = event.touches[0]
-            let currentTapData = this.data.barHandle.bindTap(x, y)
-            console.log('currentTapData', currentTapData)
+            let { x, y } = event.detail
+            let touchData = this.data.pieHandle.bindTap(x, y)
+            console.log(touchData)
         }
     }
 })

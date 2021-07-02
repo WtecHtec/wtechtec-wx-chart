@@ -67,7 +67,7 @@ Component({
             
         },
         bindTap(event) {
-            // console.log('bindTouchStart', event.detail)
+            console.log('bindTouchStart', event)
             let { x, y } = event.detail
             this.data.barHandle.bindTap(x, y)
         }

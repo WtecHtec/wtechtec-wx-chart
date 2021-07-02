@@ -337,7 +337,9 @@ class BarHandle {
                 this.drawUtil.drawArc(
                     this.config.grid.left + WORD_WIDTH + this.xScale.getRangeBand(j) + this.xScale.rangeBand() / 2,
                     this.yRightScale(lineData[i].data[j]),
-                    2, 0, Math.PI * 2, 1
+                    2, 0, Math.PI * 2, 1, {
+                        strokeStyle: COLOR[i]
+                    }
                 )
 
                 

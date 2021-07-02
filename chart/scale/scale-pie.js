@@ -1,3 +1,4 @@
+// 饼图角度
 class  MyScalePie{
     constructor() {
         this.arcData = []
