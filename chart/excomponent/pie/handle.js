@@ -82,6 +82,7 @@ class BarHandle {
      * @param { } x 
      */
     bindTap(x, y) {
+        if (this.floatTime) clearTimeout(this.floatTime)
         let isTouch =  this._isInExactPieChartArea(
             {
                 x,
@@ -104,6 +105,21 @@ class BarHandle {
                 }, 
             )
             console.log('bindTap', index)
+            this.floatctx.setGlobalAlpha(0.2)
+            this.floatdrawUtil.drawArc(this.centerX, this.centerY, 
+                this.outR/2 -  this.lineWidth/2 ,
+                this.scalePieDatas[index].startAngle, this.scalePieDatas[index].endAngle,
+                 1, 
+                {   lineWidth:  this.lineWidth,
+                    strokeStyle: 'rgba(245,246,250,0.6)'
+                }
+            )
+            
+            this.floatctx.draw()
+            this.floatTime = setTimeout(() => {
+                this.floatctx.draw()
+            }, 2000);
+            
             return this.scalePieDatas[index]
         } 
         
@@ -158,13 +174,14 @@ class BarHandle {
      */
     _drawPie() {
         let lineWidth = this.outR/2 - this.innerR/2
+        this.lineWidth = lineWidth
         let colorLen = COLOR.length
         for(let i = 0; i < this.scalePieDatas.length; i++) {
-           console.log('_drawPie',this.scalePieDatas[i] )
             this.drawUtil.drawArc(this.centerX, this.centerY, this.outR/2 - lineWidth/2 , this.scalePieDatas[i].startAngle, this.scalePieDatas[i].endAngle, 1, 
                 {   lineWidth,
                     strokeStyle: COLOR[i % colorLen] 
-                })
+                }
+            )
         }
     }
 
