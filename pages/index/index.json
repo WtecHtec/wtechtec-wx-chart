@@ -4,6 +4,7 @@
     "line-chart": "../../chart/excomponent/line",
     "pie-chart": "../../chart/excomponent/pie",
     "radar-chart": "../../chart/excomponent/radar",
+    "guage-chart": "../../chart/excomponent/guage",
     "bar-chart": "../../chart/excomponent/bar"
   }
 }

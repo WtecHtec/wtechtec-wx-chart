@@ -7,7 +7,7 @@ import { COLOR } from '../../utils/color'
 const WORD_WIDTH = 30
 const SPACING = 8
 
-class BarHandle {
+class LineHandle {
 
     constructor(ctx, floatctx, self){
         try {
@@ -298,4 +298,4 @@ class BarHandle {
     
 }
 
-export default BarHandle;
+export default LineHandle;

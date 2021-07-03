@@ -4,7 +4,7 @@ import ToolUtil from '../../utils/tool-util'
 import MyScaleRound from '../../scale/scale-round'
 import MyScaleLinear from '../../scale/scale-linear'
 import { COLOR } from '../../utils/color'
-class BarHandle {
+class RadarHandle {
 
     constructor(ctx, floatctx, self){
         try {
@@ -296,4 +296,4 @@ class BarHandle {
     
 }
 
-export default BarHandle;
+export default RadarHandle;

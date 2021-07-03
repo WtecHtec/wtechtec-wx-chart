@@ -1,7 +1,6 @@
 export const CONFIG = {
     width: 320,
     height: 250,
-    ticks: 7,
     grid: {
         top: 10,
         bottom: 10,

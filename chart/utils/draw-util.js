@@ -19,6 +19,7 @@ class DrawUtil{
     drawLineVertical(x1,x2, top=0, left=0, config={}) {
        
         let ctx = this.ctx
+        ctx.restore()
         ctx.setLineWidth(0.05)
         ctx.beginPath();
         ctx.moveTo(x1 + left, top);
@@ -39,6 +40,7 @@ class DrawUtil{
     drawLineHorizontal(y1,y2, top=0, left=0,config={}) {
 
         let ctx = this.ctx
+        ctx.restore()
         ctx.beginPath();
         ctx.moveTo(left, y1 + top);
         ctx.lineTo(left, y2 + top);
@@ -58,7 +60,10 @@ class DrawUtil{
      */
 	drawWord(text, x, y,config={}){
 
-		let ctx = this.ctx
+        let ctx = this.ctx
+        ctx.restore()
+        ctx.setTextAlign(config.textAlign || '')
+        ctx.setFillStyle('#000')
 		ctx.fillText(text, x, y);
 	}
 	
@@ -75,6 +80,7 @@ class DrawUtil{
      */
 	drawRect(x,y,w,h,config={}) {
         let ctx = this.ctx
+        ctx.restore()
         ctx.setFillStyle(config.fillColor || '#7587DB')
 		ctx.fillRect(x,y,w,h);
     }
@@ -91,14 +97,15 @@ class DrawUtil{
      */
     drawArc(x, y, r, sa, ea, ishollow , config = {}){
         let ctx = this.ctx
+        ctx.restore()
         ctx.beginPath()
         ctx.arc(x, y, r, sa, ea)
         if ( ishollow ) {
             ctx.setLineWidth(config.lineWidth || 1)
-            ctx.setStrokeStyle(config.strokeStyle || '#000')
+            config.strokeStyle && ctx.setStrokeStyle(config.strokeStyle || '#000')
             ctx.stroke();
         } else {
-            ctx.setFillStyle(config.fillStyle || '#000')
+            config.fillStyle &&  ctx.setFillStyle(config.fillStyle || '#000')
             ctx.fill()
         }
         // ctx.stroke()
@@ -112,11 +119,12 @@ class DrawUtil{
      */
     drawLine(pos1, pos2, config = {}) {
         let ctx = this.ctx
+        ctx.restore()
         ctx.beginPath();
         ctx.moveTo(pos1.x,pos1.y);
         ctx.lineTo(pos2.x, pos2.y);
         ctx.closePath();
-        ctx.setStrokeStyle(config.strokeStyle || '#7587DB')
+        config.strokeStyle  && ctx.setStrokeStyle(config.strokeStyle || '#7587DB')
         ctx.setLineWidth(config.lineWidth || 1)
         ctx.stroke();
     }
@@ -129,6 +137,7 @@ class DrawUtil{
      */
     drawArea(startPos, pos, isFll, config = {}){
         let ctx = this.ctx
+        ctx.restore()
         ctx.beginPath();
         ctx.moveTo(startPos.x,startPos.y);
         for (let i = 0; i < pos.length; i++) {
@@ -138,10 +147,10 @@ class DrawUtil{
       
         ctx.setLineWidth(config.lineWidth || 1)
         if (isFll) {
-            ctx.setFillStyle(config.fillStyle || '#7587DB')
+            config.fillStyle && ctx.setFillStyle(config.fillStyle || '#7587DB')
             ctx.fill()
         } else {
-            ctx.setStrokeStyle(config.strokeStyle || '#7587DB')
+            config.strokeStyle && ctx.setStrokeStyle(config.strokeStyle || '#7587DB')
             ctx.stroke();
         }
         

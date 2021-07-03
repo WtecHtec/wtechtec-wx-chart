@@ -1,5 +1,5 @@
 // chart/excomponent/bar/index.js
-import BarHandle from './handle'
+import LineHandle from './handle'
 
 Component({
     /**
@@ -20,7 +20,7 @@ Component({
      * 组件的初始数据
      */
     data: {
-        barHandle: null,
+        lineHandle: null,
         letf: 0,
     },
     lifetimes: {
@@ -56,13 +56,13 @@ Component({
                 const ctx = wx.createCanvasContext('bar-canvas', this)
                 console.log('ctx',ctx)
                 const floatctx = wx.createCanvasContext('float-canvas', this)
-                let barHandle = new BarHandle(ctx, floatctx, this)
-                barHandle.setOption({ 
+                let lineHandle = new LineHandle(ctx, floatctx, this)
+                lineHandle.setOption({ 
                     height: canvas.height / 2,
                     width: canvas.width
                 })
-                this.data.barHandle = barHandle
-                console.log(barHandle.getOption())
+                this.data.lineHandle = lineHandle
+                console.log(lineHandle.getOption())
               })
             
         },
@@ -72,7 +72,7 @@ Component({
             let { x, y } = event.detail
 
             // console.log('bindTouchStart', event, x - offsetLeft)
-            this.data.barHandle.bindTap(x - offsetLeft, y - offsetTop)
+            this.data.lineHandle.bindTap(x - offsetLeft, y - offsetTop)
         }
     }
 })

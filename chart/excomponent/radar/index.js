@@ -1,5 +1,5 @@
 // chart/excomponent/bar/index.js
-import PieHandle from './handle'
+import RadarHandle from './handle'
 
 Component({
     /**
@@ -20,7 +20,7 @@ Component({
      * 组件的初始数据
      */
     data: {
-        pieHandle: null,
+        radarHandle: null,
         letf: 0,
     },
     lifetimes: {
@@ -56,13 +56,13 @@ Component({
                 const ctx = wx.createCanvasContext('bar-canvas', this)
                 console.log('ctx',ctx)
                 const floatctx = wx.createCanvasContext('float-canvas', this)
-                let pieHandle = new PieHandle(ctx, floatctx, this)
-                pieHandle.setOption({ 
+                let radarHandle = new RadarHandle(ctx, floatctx, this)
+                radarHandle.setOption({ 
                     height: canvas.height/2 ,
                     width: canvas.width
                 })
-                this.data.pieHandle = pieHandle
-                console.log(pieHandle.getOption())
+                this.data.radarHandle = radarHandle
+                console.log(radarHandle.getOption())
               })
             
         },
@@ -70,7 +70,7 @@ Component({
             // console.log('bindTouchStart', event.detail)
             let { offsetLeft, offsetTop } = event.currentTarget
             let { x, y } = event.detail
-            let touchData = this.data.pieHandle.bindTap(x - offsetLeft, y - offsetTop)
+            let touchData = this.data.radarHandle.bindTap(x - offsetLeft, y - offsetTop)
             console.log(touchData)
         }
     }

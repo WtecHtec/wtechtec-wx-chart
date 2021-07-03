@@ -105,7 +105,7 @@ class BarHandle {
                 }, 
             )
             console.log('bindTap', index)
-            this.floatctx.setGlobalAlpha(0.2)
+            this.floatctx.setGlobalAlpha(0.5)
             this.floatdrawUtil.drawArc(this.centerX, this.centerY, 
                 this.outR/2 -  this.lineWidth/2 ,
                 this.scalePieDatas[index].startAngle, this.scalePieDatas[index].endAngle,

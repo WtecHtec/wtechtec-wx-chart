@@ -3,7 +3,7 @@ import DrawUtil  from '../../utils/draw-util'
 import MyScaleLinear from '../../scale/scale-linear'
 import MyScaleRound from '../../scale/scale-round'
 import { COLOR } from '../../utils/color'
-class BarHandle {
+class FunnelHandle {
 
     constructor(ctx, floatctx, self){
         try {
@@ -205,4 +205,4 @@ class BarHandle {
     
 }
 
-export default BarHandle;
+export default FunnelHandle;

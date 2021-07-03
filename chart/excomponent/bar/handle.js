@@ -167,6 +167,11 @@ class BarHandle {
 
        
     }
+
+    _getStackMinAndMaxValue() {
+        
+    }
+
     _getMinAndMaxValue(){
      
         if (!this.config.series || !this.config.series.bar || !Array.isArray(this.config.series.bar)) {

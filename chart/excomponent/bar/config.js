@@ -26,10 +26,12 @@ export const CONFIG = {
         bar: [
             {
                 name: '蒸发量',
+                stack: 'total',
                 data: [2.0, 4.9, 7.0, 23.2, 25.6, 7.7, 135.6]
             },
             {
                 name: '降水量1',
+                stack: 'total',
                 data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6]
             },
             {

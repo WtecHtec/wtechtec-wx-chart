@@ -1,5 +1,5 @@
 // chart/excomponent/bar/index.js
-import FunnelHandle from './handle'
+import GuageHandle from './handle'
 
 Component({
     /**
@@ -20,7 +20,7 @@ Component({
      * 组件的初始数据
      */
     data: {
-        funnelHandle: null,
+        guageHandle: null,
         letf: 0,
     },
     lifetimes: {
@@ -56,13 +56,13 @@ Component({
                 const ctx = wx.createCanvasContext('bar-canvas', this)
                 console.log('ctx',ctx)
                 const floatctx = wx.createCanvasContext('float-canvas', this)
-                let funnelHandle = new FunnelHandle(ctx, floatctx, this)
-                funnelHandle.setOption({ 
+                let guageHandle = new GuageHandle(ctx, floatctx, this)
+                guageHandle.setOption({ 
                     height: canvas.height/2 ,
                     width: canvas.width
                 })
-                this.data.funnelHandle = funnelHandle
-                console.log(funnelHandle.getOption())
+                this.data.guageHandle = guageHandle
+                console.log(guageHandle.getOption())
               })
             
         },
@@ -70,7 +70,7 @@ Component({
             // console.log('bindTouchStart', event.detail)
             let { offsetLeft, offsetTop } = event.currentTarget
             let { x, y } = event.detail
-            let touchData = this.data.funnelHandle.bindTap(x - offsetLeft, y - offsetTop)
+            let touchData = this.data.guageHandle.bindTap(x - offsetLeft, y - offsetTop)
             console.log(touchData)
         }
     }
