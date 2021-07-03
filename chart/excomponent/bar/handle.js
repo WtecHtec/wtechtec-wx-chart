@@ -44,6 +44,8 @@ class BarHandle {
 
             this.floatTime = null
 
+            this.stackDataMap = {}
+
 
         } catch (e) {
             console.error(e)
@@ -168,8 +170,47 @@ class BarHandle {
        
     }
 
+    /**
+     *  添加 stack 柱状图
+     */
     _getStackMinAndMaxValue() {
         
+        this.config.series.bar.forEach((item, index)=>{
+            if (item.stack  && !this.stackDataMap[item.stack]) {
+                this.stackDataMap[item.stack] = [item.data];
+            } else if (item.stack && this.stackDataMap[item.stack]) {
+                this.stackDataMap[item.stack].push(item.data)
+            } else {
+                this.stackDataMap[new Date().getTime() + index] = [item.data];
+            } 
+        })
+        let  barData = []
+        let  stackArr = []
+        let itemStack = 0
+        for(let key in this.stackDataMap) {
+            console.log('_getStackMinAndMaxValue',  key)
+            stackArr = []
+            if (this.stackDataMap[key].length >= 2) {
+
+                for (let j = 0; j <  this.config.xAxis.data.length; j++) {
+                    itemStack = 0
+                    for (let i = 0; i < this.stackDataMap[key].length; i++) {
+                        itemStack += this.stackDataMap[key][i][j]
+                    }
+                    stackArr.push(itemStack)
+                }
+
+                barData = barData.concat(stackArr)
+
+            } else {
+                barData = barData.concat(...this.stackDataMap[key])
+            }
+        }
+
+
+      
+        console.log('_getStackMinAndMaxValue',  this.stackDataMap, barData )
+        return barData
     }
 
     _getMinAndMaxValue(){
@@ -180,9 +221,12 @@ class BarHandle {
         }
         let barData = []
         
-        this.config.series.bar.forEach((item)=>{
-            barData = [...barData, ...item.data]
-        })
+        // this.config.series.bar.forEach((item)=>{
+        //     barData = [...barData, ...item.data]
+        // })
+
+        barData =  this._getStackMinAndMaxValue()
+
         this.leftMinVal = Math.min(...barData)
         this.leftMaxVal = Math.max(...barData)
 
@@ -303,26 +347,76 @@ class BarHandle {
             return
         }  
         let barData =  this.config.series.bar
-        let barLen = barData.length 
+        // let barLen = barData.length 
+        let stackMapKeys =  Object.keys(this.stackDataMap)
+        let barLen = stackMapKeys.length
         let rangeBand = (this.xScale.rangeBand() - SPACING)  / barLen
 
-        for(let i = 0; i < barLen; i++ ) {
-         
-    
-            for (let j = 0; j < barData[i].data.length; j++ ) {
-              
-                this.drawUtil.drawRect(
-                    this.config.grid.left + WORD_WIDTH + this.xScale.getRangeBand(j) + rangeBand * i,
-                    this.yLeftScale(barData[i].data[j]),
-                    rangeBand,
-                    this.config.height  - this.config.grid.bottom  - this.config.grid.top -  this.yLeftScale(barData[i].data[j]),
-                    {
-                        fillColor: COLOR[i]
-                    }
-                );
+        // for(let i = 0; i < barLen; i++ ) {
+        //     for (let j = 0; j < barData[i].data.length; j++ ) {   
+        //         this.drawUtil.drawRect(
+        //             this.config.grid.left + WORD_WIDTH + this.xScale.getRangeBand(j) + rangeBand * i,
+        //             this.yLeftScale(barData[i].data[j]),
+        //             rangeBand,
+        //             this.config.height  - this.config.grid.bottom  - this.config.grid.top -  this.yLeftScale(barData[i].data[j]),
+        //             {
+        //                 fillColor: COLOR[i]
+        //             }
+        //         );
+        //     }
+        // }
 
+       
+        let yScaleVale = new Array(this.config.xAxis.data.length).fill(0)
+   
+        for (let i = 0; i < barLen; i++ ) {
+      
+            if (this.stackDataMap[stackMapKeys[i]].length === 0) break
+
+            yScaleVale = new Array(this.config.xAxis.data.length).fill(0)
+
+            if (this.stackDataMap[stackMapKeys[i]].length >= 2) {
+                
+                for (let j = 0; j < this.stackDataMap[stackMapKeys[i]].length; j++) {
+                    console.log('this.stackDataMap[stackMapKeys[i]][j].length', this.stackDataMap[stackMapKeys[i]][j].length)
+                    for (let n = 0; n < this.stackDataMap[stackMapKeys[i]][j].length; n++ ) {
+                    //   console.log(this.stackDataMap[stackMapKeys[i]][j][n])
+                        this.drawUtil.drawRect(
+                            this.config.grid.left + WORD_WIDTH + this.xScale.getRangeBand(n) + rangeBand * i,
+                            this.yLeftScale(this.stackDataMap[stackMapKeys[i]][j][n]) - yScaleVale[n],
+                            rangeBand,
+                            this.config.height  - this.config.grid.bottom  - this.config.grid.top -  this.yLeftScale(this.stackDataMap[stackMapKeys[i]][j][n]),
+                            {
+                                fillColor: COLOR[j % COLOR.length]
+                            }
+                        );
+                        yScaleVale[n] += this.config.height  - this.config.grid.bottom  - this.config.grid.top -  this.yLeftScale(this.stackDataMap[stackMapKeys[i]][j][n])
+                        console.log(yScaleVale[n])
+                    }
+
+                    
+                }
+
+
+            } else  {
+
+                for (let j = 0; j < this.stackDataMap[stackMapKeys[i]][0].length; j++) {
+                   
+                    this.drawUtil.drawRect(
+                        this.config.grid.left + WORD_WIDTH + this.xScale.getRangeBand(j) + rangeBand * i,
+                        this.yLeftScale(this.stackDataMap[stackMapKeys[i]][0][j]),
+                        rangeBand,
+                        this.config.height  - this.config.grid.bottom  - this.config.grid.top -  this.yLeftScale(this.stackDataMap[stackMapKeys[i]][0][j]),
+                        {
+                            fillColor: COLOR[i % COLOR.length]
+                        }
+                    );
+                }
+                
             }
         }
+        console.log(yScaleVale)
+
 
     }
 
