@@ -4,6 +4,7 @@ import ToolUtil from '../../utils/tool-util'
 import MyScaleRound from '../../scale/scale-round'
 import MyScaleLinear from '../../scale/scale-linear'
 import { COLOR } from '../../utils/color'
+import AnimationTool from '../../utils/animation-tool'
 class GuageHandle {
 
     constructor(ctx, floatctx, self){
@@ -58,16 +59,29 @@ class GuageHandle {
         this.config =  Object.assign(CONFIG, config)
   
         this._setRadius()
-
-
-
+        
         this._getMinAndMaxVal()
 
         this._setScale()
-        
-        this._setTicks()
 
-        this._drawGuage()
+        new AnimationTool({
+          duration: 1000,
+          timing: 'linear',
+          onProcess: (process) => {
+            // console.log(' AnimationTool res', process)
+            this._setTicks()
+
+            this._drawGuage(process)
+            this.drawUtil.ctx.draw()
+            // this.drawUtil.ctx.restore()
+          }
+        }).start()
+
+
+
+     
+        
+       
 
        
 
@@ -132,6 +146,7 @@ class GuageHandle {
             this.config.endAngle / 180 * Math.PI,
         ])
 
+        // console.log('this.linearScale', this.linearScale(70))
        
         if ( this.config.axisTick && this.config.axisTick.show && Array.isArray(this.config.axisTick.lineStyle) ) {
             this.axisTickRoundScale = new MyScaleRound()
@@ -242,7 +257,7 @@ class GuageHandle {
     /**
      *  绘制数据
      */
-    _drawGuage(){
+    _drawGuage(process){
       
         if ( !this.config.series || !Array.isArray(this.config.series.data)) {
             console.error(' series 配置错误')
@@ -253,22 +268,23 @@ class GuageHandle {
         let isColor = true
         if ( this.config.axisTick && this.config.axisTick.show && Array.isArray(this.config.axisTick.lineStyle) )  isColor = false
         for (let i = 0; i < len; i++) {
-            this.drawUtil.drawArc(
-                this.centerX,
-                this.centerY,
-                this.radius / 2,
-                this.config.startAngle / 180 * Math.PI,
-                this.linearScale(guageData[i].value),
-                1,
-                {
-                    lineWidth: this.config.lineWidth,
-                    strokeStyle: isColor ? guageData[i].color : 'rgba(0,0,0,0)'
-                }
-            )
+            // this.drawUtil.drawArc(
+            //     this.centerX,
+            //     this.centerY,
+            //     this.radius / 2,
+            //     this.config.startAngle / 180 * Math.PI,
+            //     this.linearScale(guageData[i].value),
+            //     1,
+            //     {
+            //         lineWidth: this.config.lineWidth,
+            //         strokeStyle: isColor ? guageData[i].color : 'rgba(0,0,0,0)'
+            //     }
+            // )
+            let rang =  this.config.startAngle / 180 * Math.PI  -  this.linearScale( this.maxVal - guageData[i].value) * process
             this._drawCustor(
-                this._getPos(this.centerX,  this.linearScale(guageData[i].value), this.radius / 2 * 0.8, 1),
-                this._getPos(this.centerY,  this.linearScale(guageData[i].value), this.radius / 2 * 0.8, 0),
-                this.linearScale(guageData[i].value)
+                this._getPos(this.centerX,  rang, this.radius / 2 * 0.8, 1),
+                this._getPos(this.centerY,  rang, this.radius / 2 * 0.8, 0),
+                this.linearScale(guageData[i].value)  
             )
         }
 
@@ -284,10 +300,10 @@ class GuageHandle {
         let posData = []
        
         let radius = 5
-        console.log('_drawCustor',  this.centerY, this._getPos(this.centerX, angle - Math.PI * 0.5 , radius, 0))
+        // console.log('_drawCustor',  this.centerY, this._getPos(this.centerX, angle - Math.PI * 0.5 , radius, 0))
         posData.push({
             x: this.centerX,
-            y:   this.centerY
+            y: this.centerY
         })
         posData.push({
             x: this._getPos(this.centerX, angle - Math.PI * 0.5, radius, 1),
@@ -309,23 +325,15 @@ class GuageHandle {
         )
         this.drawUtil.drawArc(
             this.centerX,
-           this.centerY,
-           radius,
-           0, Math.PI * 2, 0,
-           {
-            fillStyle: '#5470c6'
-           }
+            this.centerY,
+            radius,
+            0, Math.PI * 2, 0,
+            {
+              fillStyle: '#5470c6'
+            }
        )
-       
-
-
 
     }
-
-
-
-  
-    
 }
 
 export default GuageHandle;

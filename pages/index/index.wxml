@@ -1,11 +1,7 @@
 <bar-chart></bar-chart>
-
 <pie-chart></pie-chart>
-
-<line-chart></line-chart>
-
-<funnel-chart></funnel-chart>
-
+<!-- <line-chart></line-chart> -->
+<!-- <funnel-chart></funnel-chart> -->
 <radar-chart></radar-chart>
 
-<guage-chart></guage-chart>
+<guage-chart></guage-chart> 

@@ -40,7 +40,7 @@ Component({
                 this.data.height =  height
                 this.data.width =  width
                 this.setData({ 
-                    height,
+                    height: 400,
                     width,
                 });
               } catch (e) {

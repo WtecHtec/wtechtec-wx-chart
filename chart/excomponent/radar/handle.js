@@ -4,6 +4,7 @@ import ToolUtil from '../../utils/tool-util'
 import MyScaleRound from '../../scale/scale-round'
 import MyScaleLinear from '../../scale/scale-linear'
 import { COLOR } from '../../utils/color'
+import AnimationTool from '../../utils/animation-tool'
 class RadarHandle {
 
     constructor(ctx, floatctx, self){
@@ -58,14 +59,24 @@ class RadarHandle {
         this.config =  Object.assign(CONFIG, config)
   
         this._setRadius()
+        this._setScale()
+       
+        new AnimationTool({
+          duration: 1000,
+          timing: 'linear',
+          onProcess: (process) => {
+            // console.log(' AnimationTool res', process)
+            this._setAngleDatas()
 
-        this._setAngleDatas()
-        
-        this._setTicks()
+            this._setTicks()
 
-        this._drawRadar()
+            this._drawRadar(process)
 
-        this.drawUtil.ctx.draw()
+            this.drawUtil.ctx.draw()
+            // this.drawUtil.ctx.restore()
+          }
+        }).start()
+       
     }
 
     /**
@@ -127,6 +138,23 @@ class RadarHandle {
         if (isX) return pos +  r * Math.cos(angle)
         return pos +  r * Math.sin(angle )
     } 
+
+    _setScale(){
+      let len =  this.config.radar.length
+      this.scaleRound = new MyScaleRound().domain([
+          len
+      ]).rangeRoundBands([
+          0,
+          Math.PI * 2
+      ])
+
+      this.ticksRound = new MyScaleRound().domain([
+          this.ticks
+      ]).rangeRoundBands([
+          0,
+          this.radius / 2
+      ])
+    }
     /**
      * 设置数据
      */
@@ -138,19 +166,19 @@ class RadarHandle {
         }
 
         let len =  this.config.radar.length
-        this.scaleRound = new MyScaleRound().domain([
-            len
-        ]).rangeRoundBands([
-            0,
-            Math.PI * 2
-        ])
+        // this.scaleRound = new MyScaleRound().domain([
+        //     len
+        // ]).rangeRoundBands([
+        //     0,
+        //     Math.PI * 2
+        // ])
 
-        this.ticksRound = new MyScaleRound().domain([
-            this.ticks
-        ]).rangeRoundBands([
-            0,
-            this.radius / 2
-        ])
+        // this.ticksRound = new MyScaleRound().domain([
+        //     this.ticks
+        // ]).rangeRoundBands([
+        //     0,
+        //     this.radius / 2
+        // ])
 
         let itemScaleLiner = {}
         let x = 0
@@ -239,7 +267,7 @@ class RadarHandle {
     /**
      *  绘制数据
      */
-    _drawRadar(){
+    _drawRadar(process){
         if ( !this.config.series || !Array.isArray(this.config.series.data)) {
             console.error('series 配置错误')
             return
@@ -251,14 +279,15 @@ class RadarHandle {
         let x = 0
         let y = 0
         let posData = []
+        // this.drawUtil.ctx.scale(1 ,  0.5 + 0.5 * process)
         for (let i = 0; i < len; i++) {
             radarData = this.config.series.data[i].value
             posData = []
             for (let j = 0; j < radarData.length; j++) {
                 if (j < this.scaleLinearDatas.length) {
                     itemScaleLiner =  this.scaleLinearDatas[j]
-                    x =  this._getPos(this.centerX, this.config.radar[j].angle, itemScaleLiner(radarData[j]), 1)
-                    y =  this._getPos(this.centerY, this.config.radar[j].angle,  itemScaleLiner(radarData[j]), 0)
+                    x =  this._getPos(this.centerX, this.config.radar[j].angle, itemScaleLiner(radarData[j]) * process, 1)
+                    y =  this._getPos(this.centerY, this.config.radar[j].angle,  itemScaleLiner(radarData[j]) * process, 0)
             
                 } else {
                     x = this.centerX

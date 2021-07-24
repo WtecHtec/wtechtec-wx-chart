@@ -2,6 +2,7 @@ import { CONFIG } from './config'
 import DrawUtil  from '../../utils/draw-util'
 import ScalePie from '../../scale/scale-pie'
 import { COLOR } from '../../utils/color'
+import AnimationTool from '../../utils/animation-tool'
 class BarHandle {
 
     constructor(ctx, floatctx, self){
@@ -60,14 +61,23 @@ class BarHandle {
 
         this._setPieDatas()
 
-        this._drawPie()
+    
         // this.drawUtil.drawArc(this.centerX, this.centerY, this.outR/2, 0, Math.PI * 2, 0)
         // if (this.config.radius.length >= 2) {
         //     this.drawUtil.drawArc(this.centerX, this.centerY, this.innerR/2, 0, Math.PI * 2, 0, { fillStyle: '#fff' })
         // }
-        
+     
+        new AnimationTool({
+          duration: 1000,
+          timing: 'linear',
+          onProcess: (process) => {
+            // console.log(' AnimationTool res', process)
+            this._drawPie(process)
+            this.drawUtil.ctx.draw()
+            // this.drawUtil.ctx.restore()
+          }
+        }).start()
 
-        this.drawUtil.ctx.draw()
     }
 
     /**
@@ -172,19 +182,22 @@ class BarHandle {
     /**
      *  绘制饼图
      */
-    _drawPie() {
+    _drawPie(process) {
         let lineWidth = this.outR/2 - this.innerR/2
         this.lineWidth = lineWidth
         let colorLen = COLOR.length
         for(let i = 0; i < this.scalePieDatas.length; i++) {
           
-            this.drawUtil.drawArc(this.centerX, this.centerY, this.outR/2 - lineWidth/2 , this.scalePieDatas[i].startAngle + (i === 0 ? 0.01 : 0) , this.scalePieDatas[i].endAngle, 1, 
+            this.drawUtil.drawArc(this.centerX, this.centerY, this.outR/2 - lineWidth/2 , 
+              this.scalePieDatas[i].startAngle + (i === 0 ? 0.01 : 0) ,
+              this.scalePieDatas[i].startAngle + (this.scalePieDatas[i].endAngle - this.scalePieDatas[i].startAngle ) * process, 1, 
                 {   lineWidth,
                     strokeStyle: COLOR[i % colorLen] 
                 }
             )
             if (i <  this.scalePieDatas.length - 1) {
-                this.drawUtil.drawArc(this.centerX, this.centerY, this.outR/2 - lineWidth/2 , this.scalePieDatas[i].endAngle - 0.01, 0.01, 1, 
+                this.drawUtil.drawArc(this.centerX, this.centerY, this.outR/2 - lineWidth/2 ,
+                   (this.scalePieDatas[i].endAngle - 0.01) , 0.01 * process , 1, 
                     {   lineWidth,
                         strokeStyle: '#fff' 
                     }

@@ -4,11 +4,11 @@ export const CONFIG = {
     ticks: 6,
     grid: {
         top: 10,
-        bottom: 10,
+        bottom: 0,
         left: 10,
         right: 10,
     },
-    radius: 0.9,
+    radius: 1,
     startAngle: -180,
     endAngle: 0,
     lineWidth: 10,
@@ -21,7 +21,7 @@ export const CONFIG = {
         data: [
             {
 
-                value: 70,
+                value: 40,
                 name: 'SCORE',
                 color: '#5470c6'
             }
